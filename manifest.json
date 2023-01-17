@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Code Naming Convention List",
+  "version": "1.0",
+
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+
+  "background": {
+    "service-worker": "background.js"
+  },
+
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"]
+  }],
+
+  "action": {
+    "default_icon": "/assets/48.png",
+    "default_popup": "popup.html",
+    "default_title": "List code naming conventions"
+  }
+}
+
