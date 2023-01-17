@@ -10,9 +10,21 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }).map(word => {
       let replacedWord = lang === 'python' ? word.replace(/([a-z0-9])([A-Z])/g, '$1_$2').toLowerCase() : word.replace(/(_)(.)/g, (match, _, character) => character.toUpperCase());
       return [word, replacedWord];
-    }));    
+    }));
     chrome.storage.local.set({ wordDict: wordDict }, function () {
       console.log('wordDict is stored');
     });
+  }
+});
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.message === "find_word") {
+    let found = window.find(request.word);
+    if (found) {
+      sendResponse({ status: "found" });
+    } else {
+      window.getSelection().removeAllRanges();
+      sendResponse({ status: "no_more_instances" });
+    }
   }
 });

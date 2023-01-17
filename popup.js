@@ -18,3 +18,16 @@ chrome.storage.local.get(['wordDict'], function (result) {
     cell2.innerHTML = wordDict[key];
   }
 });
+
+document.getElementById("myTable").addEventListener("click", function(event) {
+  if (event.target.tagName === "TD" && event.target.parentNode.rowIndex > 0) {
+    let word = event.target.innerHTML;
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {message: "find_word", word: word}, function(response) {
+        if (response.status === "no_more_instances") {
+          alert(`no more instances of "${word}".`);
+        }
+      });
+    });
+  }
+});
